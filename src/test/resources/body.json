@@ -1,0 +1,7 @@
+{
+  "title": "Nuevo Producto",
+  "price": 29.99,
+  "description": "Un producto de prueba",
+  "image": "https://fakestoreapi.com/img/sample.jpg",
+  "category": "electronics"
+}
