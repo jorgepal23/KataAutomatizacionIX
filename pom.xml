@@ -69,12 +69,15 @@
                 <version>3.9.8</version>
                 <executions>
                     <execution>
+                        <id>serenity-reports</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
 
             <!-- Plugin para correr TestNG en paralelo -->
             <plugin>
