@@ -54,6 +54,11 @@
             <version>1.18.30</version> <!-- Usa la versión más reciente -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
     </dependencies>
 
     <build>
