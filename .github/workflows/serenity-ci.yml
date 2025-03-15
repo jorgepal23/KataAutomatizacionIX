@@ -23,8 +23,8 @@ jobs:
           java-version: '22'
           cache: 'maven'
 
-      - name: 🔄 Actualizar permisos de Maven Wrapper (si existe)
-        run: chmod +x mvnw || true
+      - name: instalar dependencias con maven
+        run: mvn install
 
       - name: 🚀 Ejecutar pruebas con Maven y Serenity
         run: mvn clean verify -Dserenity.reports.show=true

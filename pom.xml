@@ -62,7 +62,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/test/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>net.serenity-bdd.maven.plugins</groupId>
