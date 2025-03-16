@@ -34,3 +34,4 @@ jobs:
         with:
           name: serenity-reports
           path: target/site/serenity
+          files-to-export: target/site/pruebas.html
