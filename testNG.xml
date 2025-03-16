@@ -1,7 +1,7 @@
 <suite name="API Suite" parallel="methods" thread-count="3">
     <test name="API Tests">
         <classes>
-            <class name="test.ApiTest"/>
+            <class name="test.GetProduct"/>
         </classes>
     </test>
 </suite>

@@ -35,3 +35,9 @@ jobs:
           name: serenity-reports
           path: target/site/serenity
           files-to-export: target/site/pruebas.html
+
+      - name: 📄 Upload extent report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-reports
+          path: target/reports/pruebas.html
