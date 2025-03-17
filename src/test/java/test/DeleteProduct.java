@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import utils.Utils;
 
 public class DeleteProduct extends Report {
-    @Test (priority = 5)
+    @Test(priority = 5)
     public void testDeleteProductSuccess() {
         ExtentTest test = extent.createTest("Delete Product Success");
         test.log(Status.INFO, "Beginning test DELETE Product...");
@@ -26,16 +26,17 @@ public class DeleteProduct extends Report {
         Utils.printJsonResponse("DELETE Response:", response); // 📌 Imprimir con JSON formateado
 
         String jsonResponse = response.getBody().asPrettyString();
-        test.log(Status.INFO,  "DELETE Response: " + jsonResponse);
+        test.log(Status.INFO, "DELETE Response: " + jsonResponse);
 
-  try {
-      Assert.assertEquals(response.getStatusCode(), 200, "Successful DELETE Product");
-      test.log(Status.PASS, "Successful DELETE Product");
-  } catch (AssertionError e) {
-      test.log(Status.FAIL, "Validation error: " + e.getMessage());
-  }}
+        try {
+            Assert.assertEquals(response.getStatusCode(), 200, "Successful DELETE Product");
+            test.log(Status.PASS, "Successful DELETE Product");
+        } catch (AssertionError e) {
+            test.log(Status.FAIL, "Validation error: " + e.getMessage());
+        }
+    }
 
-    @Test (priority = 6)
+    @Test(priority = 6)
     public void testDeleteProductWrong() {
         ExtentTest test = extent.createTest("Delete Product Wrong");
         test.log(Status.INFO, "Beginning test DELETE Product Wrong...");
@@ -51,12 +52,13 @@ public class DeleteProduct extends Report {
         Utils.printJsonResponse("DELETE Invalid Response:", response); // 📌 Imprimir con JSON formateado
 
         String jsonResponse = response.getBody().asPrettyString();
-        test.log(Status.INFO,  "DELETE Invalid Response: " + jsonResponse);
+        test.log(Status.INFO, "DELETE Invalid Response: " + jsonResponse);
 
-  try {
-      Assert.assertEquals(response.getStatusCode(), 404, "Successful DELETE Product");
-      test.log(Status.PASS, "Successful DELETE Product");
-  } catch (AssertionError e) {
-      test.log(Status.FAIL, "Validation error: " + e.getMessage());
-  }}
+        try {
+            Assert.assertEquals(response.getStatusCode(), 404, "Successful DELETE Product");
+            test.log(Status.PASS, "Successful DELETE Product");
+        } catch (AssertionError e) {
+            test.log(Status.FAIL, "Validation error: " + e.getMessage());
+        }
+    }
 }

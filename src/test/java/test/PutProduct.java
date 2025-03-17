@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PutProduct extends Report {
-    @Test (priority = 3)
+    @Test(priority = 3)
     public void testPutProductSuccess() throws Exception {
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
         ExtentTest test = extent.createTest("PUT Product Success");
@@ -38,7 +38,7 @@ public class PutProduct extends Report {
         Utils.printJsonResponse("PUT Response:", response); // 📌 Imprimir con JSON formateado
 
         String jsonResponse = response.getBody().asPrettyString();
-        test.log(Status.INFO,  "PUT Response: " + jsonResponse);
+        test.log(Status.INFO, "PUT Response: " + jsonResponse);
 
         try {
             Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the updated product is null");
@@ -53,7 +53,7 @@ public class PutProduct extends Report {
         }
     }
 
-    @Test (priority = 4)
+    @Test(priority = 4)
     public void testPutProductWrong() throws Exception {
         // Leer el JSON del archivo
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
@@ -77,7 +77,7 @@ public class PutProduct extends Report {
         Utils.printJsonResponse("PUT Invalid Response:", response);
 
         String jsonResponse = response.getBody().asPrettyString();
-        test.log(Status.INFO,  "PUT Invalid Response: " + jsonResponse);
+        test.log(Status.INFO, "PUT Invalid Response: " + jsonResponse);
 
         try {
             // Validar que el código de respuesta sea 400 o 404, dependiendo de la API

@@ -11,17 +11,20 @@ import static utilities.Constantes.BASE_URL;
 
 public class Report {
     protected static ExtentReports extent;
+
     @BeforeSuite
     public void beforeSuite() {
         String path = "target/reports/pruebas.html";
         ExtentSparkReporter reporter = new ExtentSparkReporter(path);
-        extent= new ExtentReports();
+        extent = new ExtentReports();
         extent.attachReporter(reporter);
     }
+
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = BASE_URL;
     }
+
     @AfterSuite
     public void afterSuite() {
         if (extent != null) {

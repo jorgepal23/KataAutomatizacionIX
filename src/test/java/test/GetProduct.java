@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import utils.Utils;
 
 public class GetProduct extends Report {
-    @Test (priority = 1)
+    @Test(priority = 1)
     public void testGetProductsSuccess() {
         ExtentTest test = extent.createTest("Get Products Success");
         test.log(Status.INFO, "Beginning test GET Product...");
@@ -25,7 +25,7 @@ public class GetProduct extends Report {
         Utils.printJsonResponse("GET Response:", response); // 📌 Usamos Utils
 
         String jsonResponse = response.getBody().asPrettyString();
-        test.log(Status.INFO,  "GET Response: " + jsonResponse);
+        test.log(Status.INFO, "GET Response: " + jsonResponse);
 
         try {
             Assert.assertEquals(statusCode, 200, "Successful GET Product");
