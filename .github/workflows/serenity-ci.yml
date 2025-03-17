@@ -27,16 +27,9 @@ jobs:
         run: mvn install
 
       - name: 🚀 Ejecutar pruebas con Maven y Serenity
-        run: mvn clean verify -Dserenity.reports.show=true
+        run: mvn clean verify
 
-      - name: 📄 Guardar reportes de Serenity
-        uses: actions/upload-artifact@v4
-        with:
-          name: serenity-reports
-          path: target/site/serenity
-          files-to-export: target/site/pruebas.html
-
-      - name: 📄 Upload extent report artifact
+      - name: 📄 Guardar reportes
         uses: actions/upload-artifact@v4
         with:
           name: extent-reports

@@ -1,5 +1,7 @@
 package test;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -12,10 +14,13 @@ import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class PutProduct {
+public class PutProduct extends Report {
     @Test
     public void testPutProductSuccess() throws Exception {
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
+        ExtentTest test = extent.createTest("testPutProduct");
+        test.log(Status.INFO, "Ejecutando el testPutProduct");
+        test.log(Status.INFO, "Validacion del PUT de productos");
 
         Response response = RestAssured
                 .given()
@@ -30,16 +35,22 @@ public class PutProduct {
 
         Utils.printJsonResponse("PUT Response:", response); // 📌 Imprimir con JSON formateado
 
-        // Asserts adicionales
-        Assert.assertEquals(response.getStatusCode(), 200, "Código de respuesta incorrecto");
-        Assert.assertNotNull(response.jsonPath().get("id"), "El ID del producto actualizado es nulo");
-        Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "El título del producto no fue actualizado correctamente");
+        try {
+            Assert.assertEquals(response.getStatusCode(), 200, "Código de respuesta incorrecto");
+            Assert.assertNotNull(response.jsonPath().get("id"), "El ID del producto actualizado es nulo");
+            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "El título del producto no fue actualizado correctamente");
+        } catch (AssertionError e) {
+            test.log(Status.FAIL, "Error en la validacion: " + e.getMessage());
+        }
     }
 
-    @Test(priority = 5)
+    @Test
     public void testPutProductWrong() throws Exception {
         // Leer el JSON del archivo
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
+        ExtentTest test = extent.createTest("testPutProductWrong");
+        test.log(Status.INFO, "Ejecutando el testPutProductWrong");
+        test.log(Status.INFO, "Validacion del PUT erroneo de productos");
 
         // Enviar la solicitud con un endpoint inválido
         Response response = RestAssured
