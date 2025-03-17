@@ -1,10 +1,22 @@
-<suite name="API Suite" parallel="methods" thread-count="3">
-    <test name="Kata Automatizacion">
+<suite name="API Test" parallel="tests" thread-count="1">
+    <test name="Execution Three methods in parallel" parallel="methods" thread-count="3">
         <classes>
             <class name="test.GetProduct"/>
             <class name="test.DeleteProduct"/>
             <class name="test.PostProduct"/>
-            <class name="test.PutProduct"/>
+        </classes>
+    </test>
+    <test name="Execution successfully case">
+        <classes>
+            <class name="test.GetProduct"/>
+            <class name="test.DeleteProduct"/>
+            <class name="test.PostProduct"/>
+            <class name="test.PutProduct"><methods><include name="testPutProductSuccess"/></methods></class>
+        </classes>
+    </test>
+    <test name="Execution wrong case">
+        <classes>
+            <class name="test.PutProduct"><methods><include name="testPutProductWrong"/></methods></class>
         </classes>
     </test>
 </suite>

@@ -11,8 +11,8 @@ import utils.Utils;
 public class GetProduct extends Report {
     @Test
     public void testGetProductsSuccess() {
-        ExtentTest test = extent.createTest("testGetProductsSuccess");
-        test.log(Status.INFO, "Validacion del get de productos");
+        ExtentTest test = extent.createTest("Get_Products_Success");
+        test.log(Status.INFO, "Beginning test GET Product...");
         Response response = RestAssured
                 .given()
                 .when()
@@ -24,12 +24,15 @@ public class GetProduct extends Report {
         test.log(Status.INFO, "Código de respuesta: " + statusCode);
         Utils.printJsonResponse("GET Response:", response); // 📌 Usamos Utils
 
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "GET Response: " + jsonResponse);
+
         try {
-            Assert.assertEquals(statusCode, 200, "Código de respuesta correcta");
-            test.log(Status.PASS, "Código de respuesta correcta");
+            Assert.assertEquals(statusCode, 200, "Successful GET Product");
+            test.log(Status.PASS, "Successful GET Product");
 
         } catch (AssertionError e) {
-            test.log(Status.FAIL, "Error en la validacion: " + e.getMessage());
+            test.log(Status.FAIL, "Validation error: " + e.getMessage());
         }
     }
 }
