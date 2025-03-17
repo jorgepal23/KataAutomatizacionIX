@@ -9,10 +9,10 @@ import org.testng.annotations.Test;
 import utils.Utils;
 
 public class DeleteProduct extends Report {
-    @Test
+    @Test (priority = 5)
     public void testDeleteProductSuccess() {
-        ExtentTest test = extent.createTest("testDeleteProduct");
-        test.log(Status.INFO, "Validacion del delete de productos");
+        ExtentTest test = extent.createTest("Delete Product Success");
+        test.log(Status.INFO, "Beginning test DELETE Product...");
         Response response = RestAssured
                 .given()
                 .when()
@@ -21,12 +21,19 @@ public class DeleteProduct extends Report {
                 .statusCode(200)
                 .extract().response();
 
+        int statusCode = response.getStatusCode();
+        test.log(Status.INFO, "Status Code: " + statusCode);
         Utils.printJsonResponse("DELETE Response:", response); // 📌 Imprimir con JSON formateado
 
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "DELETE Response: " + jsonResponse);
+
   try {
-      Assert.assertEquals(response.getStatusCode(), 200, "Código de respuesta incorrecto");
-      Assert.assertFalse(response.asString().isEmpty(), "El cuerpo de la respuesta del DELETE está vacío");
+      Assert.assertEquals(response.getStatusCode(), 200, "Successful DELETE Product");
+      test.log(Status.PASS, "Successful DELETE Product");
+      Assert.assertFalse(response.asString().isEmpty(), "The response body is empty");
+      test.log(Status.PASS, "The response body is not empty");
   } catch (AssertionError e) {
-      test.log(Status.FAIL, "Error en la validacion: " + e.getMessage());
+      test.log(Status.FAIL, "Validation error: " + e.getMessage());
   }}
 }

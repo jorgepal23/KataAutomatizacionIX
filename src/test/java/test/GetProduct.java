@@ -9,9 +9,9 @@ import org.testng.annotations.Test;
 import utils.Utils;
 
 public class GetProduct extends Report {
-    @Test
+    @Test (priority = 1)
     public void testGetProductsSuccess() {
-        ExtentTest test = extent.createTest("Get_Products_Success");
+        ExtentTest test = extent.createTest("Get Products Success");
         test.log(Status.INFO, "Beginning test GET Product...");
         Response response = RestAssured
                 .given()
@@ -21,7 +21,7 @@ public class GetProduct extends Report {
                 .statusCode(200)
                 .extract().response();
         int statusCode = response.getStatusCode();
-        test.log(Status.INFO, "Código de respuesta: " + statusCode);
+        test.log(Status.INFO, "Status CodeS: " + statusCode);
         Utils.printJsonResponse("GET Response:", response); // 📌 Usamos Utils
 
         String jsonResponse = response.getBody().asPrettyString();

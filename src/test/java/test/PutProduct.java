@@ -15,12 +15,11 @@ import java.nio.file.Paths;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PutProduct extends Report {
-    @Test
+    @Test (priority = 3)
     public void testPutProductSuccess() throws Exception {
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
-        ExtentTest test = extent.createTest("testPutProduct");
-        test.log(Status.INFO, "Ejecutando el testPutProduct");
-        test.log(Status.INFO, "Validacion del PUT de productos");
+        ExtentTest test = extent.createTest("PUT Product Success");
+        test.log(Status.INFO, "Beginning test PUT Product...");
 
         Response response = RestAssured
                 .given()
@@ -33,24 +32,32 @@ public class PutProduct extends Report {
                 .body("title", equalTo("Nuevo Producto"))
                 .extract().response();
 
+        int statusCode = response.getStatusCode();
+        test.log(Status.INFO, "Status Code: " + statusCode);
+
         Utils.printJsonResponse("PUT Response:", response); // 📌 Imprimir con JSON formateado
 
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "PUT Response: " + jsonResponse);
+
         try {
-            Assert.assertEquals(response.getStatusCode(), 200, "Código de respuesta incorrecto");
-            Assert.assertNotNull(response.jsonPath().get("id"), "El ID del producto actualizado es nulo");
-            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "El título del producto no fue actualizado correctamente");
+            Assert.assertEquals(response.getStatusCode(), 200, "Successful PUT Product");
+            test.log(Status.PASS, "Successful PUT Product");
+            Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the updated product is null");
+            test.log(Status.PASS, "The ID of the updated product is not null");
+            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "The title of the product was not updated successfully");
+            test.log(Status.PASS, "The title of the product was updated successfully");
         } catch (AssertionError e) {
-            test.log(Status.FAIL, "Error en la validacion: " + e.getMessage());
+            test.log(Status.FAIL, "Validation error: " + e.getMessage());
         }
     }
 
-    @Test
+    @Test (priority = 4)
     public void testPutProductWrong() throws Exception {
         // Leer el JSON del archivo
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
-        ExtentTest test = extent.createTest("testPutProductWrong");
-        test.log(Status.INFO, "Ejecutando el testPutProductWrong");
-        test.log(Status.INFO, "Validacion del PUT erroneo de productos");
+        ExtentTest test = extent.createTest("PUT Product Wrong");
+        test.log(Status.INFO, "Beginning test PUT Product Wrong...");
 
         // Enviar la solicitud con un endpoint inválido
         Response response = RestAssured
@@ -62,26 +69,31 @@ public class PutProduct extends Report {
                 .then()
                 .extract().response();
 
+        int statusCode = response.getStatusCode();
+        test.log(Status.INFO, "Status Code: " + statusCode);
+
         // Imprimir la respuesta formateada
         Utils.printJsonResponse("PUT Invalid Response:", response);
 
-        // Obtener el código de respuesta
-        int statusCode = response.getStatusCode();
-        System.out.println("Código de respuesta: " + statusCode);
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "PUT Invalid Response: " + jsonResponse);
 
         // Validar que el código de respuesta sea 400 o 404, dependiendo de la API
         Assert.assertTrue(statusCode == 400 || statusCode == 404,
-                "❌ Código de respuesta inesperado: " + statusCode);
+                "❌ Code to : " + statusCode);
 
         // Verificar que la respuesta no contiene datos de producto
-        Assert.assertNull(response.jsonPath().get("id"), "El ID no debería existir en la respuesta");
-        Assert.assertNull(response.jsonPath().get("title"), "El título no debería existir en la respuesta");
+        Assert.assertNull(response.jsonPath().get("id"), "The ID of the updated product is null");
+        test.log(Status.PASS, "The ID of the updated product is not null");
+        Assert.assertNull(response.jsonPath().get("title"), "The title of the product was not updated successfully");
+        test.log(Status.PASS, "The title of the product was updated successfully");
 
         // Si la API devuelve un mensaje de error, verificarlo
         if (response.jsonPath().get("message") != null) {
-            System.out.println("Mensaje de error recibido: " + response.jsonPath().get("message"));
+            test.log(Status.INFO, "Message received: " + response.jsonPath().get("message"));
             Assert.assertFalse(response.jsonPath().get("message").toString().isEmpty(),
-                    "El mensaje de error no debería estar vacío");
+                    "The error message is empty");
+            test.log(Status.PASS, "The error message is not empty");
         }
     }
 

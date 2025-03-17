@@ -16,11 +16,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class PostProduct extends Report {
-    @Test
+    @Test (priority = 2)
     public void testPostProductSuccess() throws Exception {
         String body = new String(Files.readAllBytes(Paths.get("src/test/resources/body.json")));
-        ExtentTest test = extent.createTest("testPostProduct");
-        test.log(Status.INFO, "Validacion del POST de productos");
+        ExtentTest test = extent.createTest("Post Product Success");
+        test.log(Status.INFO, "Beginning test POST Product...");
         Response response = RestAssured
                 .given()
                 .contentType(ContentType.JSON)
@@ -33,12 +33,21 @@ public class PostProduct extends Report {
                 .body("id", notNullValue()) // Validar que devuelve un ID
                 .extract().response();
 
+        int statusCode = response.getStatusCode();
+        test.log(Status.INFO, "Status Code: " + statusCode);
+
         Utils.printJsonResponse("POST Response:", response); // 📌 Imprimir con JSON formateado
 
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "POST Response: " + jsonResponse);
+
         try {
-            Assert.assertEquals(response.getStatusCode(), 200, "Código de respuesta incorrecto");
-            Assert.assertNotNull(response.jsonPath().get("id"), "El ID del producto creado es nulo");
-            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "El título del producto no coincide");
+            Assert.assertEquals(response.getStatusCode(), 200, "Wrong status code");
+            test.log(Status.PASS, "Successful POST Product");
+            Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the created product is null");
+            test.log(Status.PASS, "The ID of the created product is not null");
+            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "The title of the created product is incorrect");
+            test.log(Status.PASS, "The title of the created product is correct");
         } catch (AssertionError e) {
             test.log(Status.FAIL, "Error en la validacion: " + e.getMessage());
         }
