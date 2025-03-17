@@ -104,6 +104,14 @@ jobs:
           path: target/reports/pruebas.html
 ```
 
+El pipeline de CI/CD se ejecuta en cada push o pull request a la rama `main` del repositorio.
+
+1. **🛠️ Checkout del código**: Se descarga el código fuente desde el repositorio.
+2. **☕ Configurar JDK 22**: Se configura la versión de JDK 22.
+3. **instalar dependencias con maven**: Se instalan las dependencias del proyecto utilizando Maven.
+4. **🚀 Ejecutar pruebas con Maven y Serenity**: Se ejecutan las pruebas utilizando Maven y Serenity.
+   5. **📄 Guardar reportes**: Se guardan los reportes de las pruebas en el archivo `pruebas.html`.
+
 Cada sección configura el entorno, instala dependencias, ejecuta pruebas y sube los reportes generados.
 
 ## Contribución
