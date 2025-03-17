@@ -1,22 +1,52 @@
 <suite name="API Test" parallel="tests" thread-count="1">
-    <test name="Execution Three methods in parallel" parallel="methods" thread-count="3">
+    <test name="Execution Three methods in parallel" parallel="classes" thread-count="3" >
         <classes>
             <class name="test.GetProduct"/>
             <class name="test.DeleteProduct"/>
+            <methods>
+                <include name="testDeleteProductSuccess"/>
+            </methods>
             <class name="test.PostProduct"/>
+            <methods>
+                <include name="testPostProductSuccess"/>
+            </methods>
         </classes>
     </test>
-    <test name="Execution successfully case">
+    <test name="Execution successfully case" >
         <classes>
             <class name="test.GetProduct"/>
             <class name="test.DeleteProduct"/>
+            <methods>
+                <include name="testDeleteProductSuccess"/>
+            </methods>
             <class name="test.PostProduct"/>
-            <class name="test.PutProduct"><methods><include name="testPutProductSuccess"/></methods></class>
+            <methods>
+                <include name="testPostProductSuccess"/>
+            </methods>
+            <class name="test.PutProduct">
+                <methods>
+                    <include name="testPutProductSuccess"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="Execution wrong case">
         <classes>
-            <class name="test.PutProduct"><methods><include name="testPutProductWrong"/></methods></class>
+            <class name="test.PutProduct">
+                <methods>
+                    <include name="testPutProductWrong"/>
+                </methods>
+            </class>
+            <class name="test.PostProduct">
+                <methods>
+                    <include name="testPostProductWrong"/>
+                </methods>
+            </class>
+            <class name="test.DeleteProduct">
+                <methods>
+                    <include name="testDeleteProductWrong"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

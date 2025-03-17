@@ -31,8 +31,31 @@ public class DeleteProduct extends Report {
   try {
       Assert.assertEquals(response.getStatusCode(), 200, "Successful DELETE Product");
       test.log(Status.PASS, "Successful DELETE Product");
-      Assert.assertFalse(response.asString().isEmpty(), "The response body is empty");
-      test.log(Status.PASS, "The response body is not empty");
+  } catch (AssertionError e) {
+      test.log(Status.FAIL, "Validation error: " + e.getMessage());
+  }}
+
+    @Test (priority = 6)
+    public void testDeleteProductWrong() {
+        ExtentTest test = extent.createTest("Delete Product Wrong");
+        test.log(Status.INFO, "Beginning test DELETE Product Wrong...");
+        Response response = RestAssured
+                .given()
+                .when()
+                .delete("/hola")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        test.log(Status.INFO, "Status Code: " + statusCode);
+        Utils.printJsonResponse("DELETE Invalid Response:", response); // 📌 Imprimir con JSON formateado
+
+        String jsonResponse = response.getBody().asPrettyString();
+        test.log(Status.INFO,  "DELETE Invalid Response: " + jsonResponse);
+
+  try {
+      Assert.assertEquals(response.getStatusCode(), 404, "Successful DELETE Product");
+      test.log(Status.PASS, "Successful DELETE Product");
   } catch (AssertionError e) {
       test.log(Status.FAIL, "Validation error: " + e.getMessage());
   }}

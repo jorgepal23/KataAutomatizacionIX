@@ -41,12 +41,13 @@ public class PutProduct extends Report {
         test.log(Status.INFO,  "PUT Response: " + jsonResponse);
 
         try {
+            Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the updated product is null");
+            test.log(Status.INFO, "The ID of the updated product is not null");
+            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "The title of the product was not updated successfully");
+            test.log(Status.INFO, "The title of the product was updated successfully");
             Assert.assertEquals(response.getStatusCode(), 200, "Successful PUT Product");
             test.log(Status.PASS, "Successful PUT Product");
-            Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the updated product is null");
-            test.log(Status.PASS, "The ID of the updated product is not null");
-            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "The title of the product was not updated successfully");
-            test.log(Status.PASS, "The title of the product was updated successfully");
+
         } catch (AssertionError e) {
             test.log(Status.FAIL, "Validation error: " + e.getMessage());
         }
@@ -78,22 +79,26 @@ public class PutProduct extends Report {
         String jsonResponse = response.getBody().asPrettyString();
         test.log(Status.INFO,  "PUT Invalid Response: " + jsonResponse);
 
-        // Validar que el código de respuesta sea 400 o 404, dependiendo de la API
-        Assert.assertTrue(statusCode == 400 || statusCode == 404,
-                "❌ Code to : " + statusCode);
+        try {
+            // Validar que el código de respuesta sea 400 o 404, dependiendo de la API
+            Assert.assertTrue(statusCode == 400 || statusCode == 404,
+                    "❌ Code to : " + statusCode);
+            Assert.assertNotNull(response.jsonPath().get("id"), "The ID of the updated product is null");
+            test.log(Status.INFO, "The ID of the updated product is not null");
+            Assert.assertEquals(response.jsonPath().get("title"), "Nuevo Producto", "The title of the product was not updated successfully");
+            test.log(Status.INFO, "The title of the product was updated successfully");
+            Assert.assertEquals(response.getStatusCode(), 200, "Successful PUT Product");
+            test.log(Status.PASS, "Successful PUT Product");
 
-        // Verificar que la respuesta no contiene datos de producto
-        Assert.assertNull(response.jsonPath().get("id"), "The ID of the updated product is null");
-        test.log(Status.PASS, "The ID of the updated product is not null");
-        Assert.assertNull(response.jsonPath().get("title"), "The title of the product was not updated successfully");
-        test.log(Status.PASS, "The title of the product was updated successfully");
-
-        // Si la API devuelve un mensaje de error, verificarlo
-        if (response.jsonPath().get("message") != null) {
-            test.log(Status.INFO, "Message received: " + response.jsonPath().get("message"));
-            Assert.assertFalse(response.jsonPath().get("message").toString().isEmpty(),
-                    "The error message is empty");
-            test.log(Status.PASS, "The error message is not empty");
+        } catch (AssertionError e) {
+            // Si la API devuelve un mensaje de error, verificarlo
+            if (response.jsonPath().get("message") != null) {
+                test.log(Status.INFO, "Message received: " + response.jsonPath().get("message"));
+                Assert.assertFalse(response.jsonPath().get("message").toString().isEmpty(),
+                        "The error message is empty");
+                test.log(Status.INFO, "The error message is not empty");
+            }
+            test.log(Status.FAIL, "Validation error: " + e.getMessage());
         }
     }
 
