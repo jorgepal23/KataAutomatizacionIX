@@ -64,7 +64,13 @@
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.19.0</version> <!-- Usa la versión más reciente -->
+        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
